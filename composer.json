@@ -2,6 +2,7 @@
 	"name": "bogosoft/cornpop",
 	"description": "A PSR-compliant nano-framework for generating responses for HTTP requests.",
 	"keywords": ["psr", "kernel", "http", "byoi"],
+	"license": "MIT",
 	"require": {
 		"bogosoft/configuration": "^1",
 		"php": ">=7.1",
