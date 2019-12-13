@@ -4,7 +4,8 @@ namespace Tests;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use \Bogosoft\Configuration\ConfigurationInterface as Configuration;
+use \Bogosoft\Configuration\IConfiguration;
+use \Bogosoft\Configuration\IMutableConfiguration;
 use \Bogosoft\Configuration\ConfigurationSectionInterface as ConfigurationSection;
 use \Bogosoft\CornPop\KernelBase;
 use \Bogosoft\CornPop\MiddlewareQueueInterface;
@@ -115,14 +116,14 @@ class KernelTest extends TestCase
                 $this->calls = $calls;
             }
 
-            protected function getContainer(Configuration $config, Logger $logger) : Container
+            protected function getContainer(IConfiguration $config, Logger $logger) : Container
             {
                 $this->calls->enqueue(__FUNCTION__);
 
                 return parent::getContainer($config, $logger);
             }
 
-            protected function getConfiguration(Request $request) : Configuration
+            protected function getConfiguration(Request $request) : IMutableConfiguration
             {
                 $this->calls->enqueue(__FUNCTION__);
 
@@ -136,7 +137,7 @@ class KernelTest extends TestCase
                 return parent::getFallbackRequestHandler($container);
             }
 
-            protected function getLogger(Configuration $config) : Logger
+            protected function getLogger(IConfiguration $config) : Logger
             {
                 $this->calls->enqueue(__FUNCTION__);
 

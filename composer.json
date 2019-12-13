@@ -4,8 +4,8 @@
 	"keywords": ["psr", "kernel", "http", "byoi"],
 	"license": "MIT",
 	"require": {
-		"bogosoft/configuration": "^1",
-		"php": ">=7.1",
+		"bogosoft/configuration": "^2",
+		"php": ">=7.4",
 		"psr/container": "^1",
 		"psr/http-message": "^1",
 		"psr/http-server-handler": "^1",

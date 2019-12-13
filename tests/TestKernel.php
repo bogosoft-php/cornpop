@@ -2,7 +2,8 @@
 
 namespace Tests;
 
-use \Bogosoft\Configuration\ConfigurationInterface as Configuration;
+use \Bogosoft\Configuration\IConfiguration;
+use \Bogosoft\Configuration\IMutableConfiguration;
 use \Bogosoft\Configuration\ConfigurationSectionInterface as ConfigurationSection;
 use \Bogosoft\CornPop\KernelBase;
 use \Bogosoft\CornPop\MiddlewareQueueInterface;
@@ -16,7 +17,7 @@ use \Psr\Log\NullLogger;
 
 class TestKernel extends KernelBase
 {
-    protected function getContainer(Configuration $config, Logger $logger) : Container
+    protected function getContainer(IConfiguration $config, Logger $logger) : Container
     {
         return new class implements Container
         {
@@ -25,18 +26,15 @@ class TestKernel extends KernelBase
         };
     }
 
-    protected function getConfiguration(Request $request) : Configuration
+    protected function getConfiguration(Request $request) : IMutableConfiguration
     {
-        return new class implements ConfigurationSection
+        return new class implements IMutableConfiguration
         {
-            public function getChildren() : iterable { return []; }
-            public function getKey() : string { return ''; }
-            public function getPath() : string { return ''; }
-            public function getSection(string $key) : ConfigurationSection { return $this; }
-            public function offsetExists($offset) { return false; }
-            public function offsetGet($offset) { return null; }
-            public function offsetSet($offset, $value) {}
-            public function offsetUnset($offset) {}
+            function get(string $key, string $default = '') : string { return $default; }
+            function getKeys() : iterable { yield from []; }
+            function has(string $key) : bool { return false; }
+            function remove(string $key) : void {}
+            function set(string $key, string $value) : void {}
         };
     }
 
@@ -51,7 +49,7 @@ class TestKernel extends KernelBase
         };
     }
 
-    protected function getLogger(Configuration $config) : Logger
+    protected function getLogger(IConfiguration $config) : Logger
     {
         return new NullLogger();
     }

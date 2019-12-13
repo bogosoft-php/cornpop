@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Bogosoft\CornPop;
 
-use \Bogosoft\Configuration\ConfigurationInterface as Configuration;
+use \Bogosoft\Configuration\IConfiguration;
+use \Bogosoft\Configuration\IMutableConfiguration;
 use \Psr\Container\ContainerInterface as Container;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \Psr\Http\Message\ServerRequestInterface as Request;
@@ -20,21 +21,21 @@ abstract class KernelBase implements RequestHandler
      * 
      * @param Request $unalteredRequest An HTTP request that has not yet been processed by middleware.
      * 
-     * @return Configuration An application configuration derived from the given HTTP request.
+     * @return IMutableConfiguration An application configuration derived from the given HTTP request.
      */
-    protected abstract function getConfiguration(Request $unalteredRequest) : Configuration;
+    protected abstract function getConfiguration(Request $unalteredRequest) : IMutableConfiguration;
 
     /**
      * Get a dependency injection (DI) container.
      * 
      * This method must return a DI container that optionally is configured with the given configuration.
      * 
-     * @param Configuration $config An application configuration that can be used when configuring a DI container.
-     * @param Logger        $logger An application logger.
+     * @param IConfiguration $config An application configuration that can be used when configuring a DI container.
+     * @param Logger         $logger An application logger.
      * 
      * @return Container A DI container.
      */
-    protected abstract function getContainer(Configuration $config, Logger $logger) : Container;
+    protected abstract function getContainer(IConfiguration $config, Logger $logger) : Container;
 
     /**
      * Get a fallback request handler.
@@ -53,11 +54,11 @@ abstract class KernelBase implements RequestHandler
      * 
      * The given configuration can be used to compose the logger.
      * 
-     * @param Configuration $config A configuration that can be used to configure the logger.
+     * @param IConfiguration $config A configuration that can be used to configure the logger.
      * 
      * @return Logger A new logger.
      */
-    protected abstract function getLogger(Configuration $config) : Logger;
+    protected abstract function getLogger(IConfiguration $config) : Logger;
 
     /**
      * Get the current application's middleware components.
